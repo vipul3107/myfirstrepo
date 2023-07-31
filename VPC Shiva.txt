@@ -1,0 +1,235 @@
+VPC Shiva
+
+What is region: Mumbai and Hyderabad are regions
+
+What is Data Center: In India we have 2 data centers. Mumbai and Hyderabad
+
+Availability zone: Physical data centers in the region
+
+What is VPC: Virtual Private Cloud
+
+VPC is an isolated method
+
+-----------------------------------------------------------------------
+
+Task 1: Pls provide 1 VPC
+
+Basic points we need to take care of: 
+
+1: IP Address: Internet Protocol Address >> 
+
+IPV4
+
+From cmd prompt : 192.168.29.84
+From Web : 49.37.133.116
+
+Details: For every laptop every server 2 ip address are allocated 1) Private IP Address 2) Public IP Adrress
+
+Private IP add. is used for establish the connection between with the organization/NW. Within this dedicated NW this server should able to communicate.
+
+Public IP: My server are able to comminicate outside of NW
+
+Through public ip we can get internet.
+
+What are private ip ranges: 
+
+Class A: 10.0.0.0 to 10.255. 255.255.
+
+Last digit is our IP range
+
+
+Class B: 172.16. 0.0 to 172.31. 255.255.
+
+
+
+Class C: 192.168. 0.0 to 192.168. 255.255
+
+
+--------------------------------------------------
+
+2: Cidr block ranges: Classless Internet Domain Resources
+
+What is /16?
+How many ip address are going to alloate?
+
+172.31.0.0/16
+
+8 8 8 8 = 32 - 16 = 16
+
+2(Everytime we consider 2) to the power of 16 = 65,536
+
+
+Example2: 10.0.0.0/8
+
+32-8 = 24 = 2 to the power of 24 = 1,67,77,216
+
+
+Minimum vpc range : /28 
+Maximum vpc range /16
+
+
+Video Number 3 END
+
+------------------------------------------------------------------------
+
+Video Number 4 Start
+
+NW partician is called subnet
+
+
+For upcoming purpose we make participation is called subnet
+
+AWS Reserved IP's in each subnet
+
+Example if the subnet is 10.0.0.0/24
+
+- 10.0.0.0 is the base NW
+- 10.0.0.1 VPC router
+- 10.0.0.2 DNS related
+- 10.0.0.3 Rserved IP
+- 10.0.0.255 last IP
+
+
+Question- Per VPC how many subnet we can build?
+
+Ans: It's depend on subnet ranges.
+
+Coz if CIDR range is /16(65,536) and we are making subnets of /17 so it's not possible. 
+
+Video 4 END
+
+------------------------------------------------------------------------
+
+Video 5 Start
+
+Task: Test VPC are they woriking properly or not and they are getting Internet access or not
+
+How to taste?
+ 
+
+NOTE: Whenever we built VPC 2 components will create automatically:
+
+1) Security Group
+2) Route Table
+
+Step1: Create a Windows 2016 server
+
+Step2: Try to access server using public IP (Error)
+
+Step3: Once we build vpc we require 1 internet gateway (For bidirectional commnuication)
+
+Step4: Create Internet gateway and attach it (Error will occure)
+
+Step5: Configure route table and associate Subnet 
+
+Step6: Add routes and give 0.0.0.0 world to open access and give Internet gateway access (Able to access)
+
+Video 5 END
+------------------------------------------------------------------------
+
+Video 6 Start
+
+Public Subnet is always connected to the route table and route table is connected to the Internet Gateway
+
+Example: Web server, rdp server, jumpbox
+
+--------------------------------------
+
+Fo Private subnet we need to configure NatGateway.
+
+What is Natgateway?
+Ans: It is logical device and it is use for outbound communication (Our server will able to communicate outside of world). My device is getting internet in secure way.
+
+< NAT GATEWAY = IP ADDRESS MASKING >
+
+We use private IP's only.
+
+Example: App server, DB Server, Test Servers
+
+-----------
+
+Task: In the private subnet without internet gareway route attachment 
+
+and without public ip need internet access
+
+
+Step1: For subnet 1 we have to configure route table
+
+Step2: For Subnet2(Privatesubnet) we have to configure route table. And associate with it (subnet2-private subnet)
+
+Step3: For(Public subnet) Internet gateway we have already configured.
+
+Step4: Will create rdp jump server for public subnet 1
+
+Step5: Will try to access internet on jump server (subnet1-internet gateway)
+
+Step6: Will create 2nd server as DB server for (Private subnet)
+
+NO NEED TO CONFIGURE ANY ADDTIONAL CONFIGURATION BETWEEN SUBNETS
+
+Step7: Will try to login to DB server(Private subnet) inside jump server(Public subnet) - Will get error (No INTERNET ACCESS ON DB server - private subnet)
+
+
+Video 6 END
+
+----------------------------------------------------------------------- 
+
+Video 7 Start
+
+Step8: Create a NAT Gateway and choose subnet as Public subnet (As it has internet connection) and allocate Elastic IP
+
+Step9: Need to confirgure Subnet Associate for Nat gateway. Add route table as 0.0.0.0 
+
+Suppose if we configure one more subnet and we associate it with Public subnets route table it will acts as public subnet and if we configure at private it will act as private
+
+Video 7 End
+
+------------------------------------------------------------------------
+
+Video 8 Start
+
+
+VPC Security topics
+
+1- NACL (NW Access control list)
+
+2- Security Group 
+
+What is NACL?
+
+Inbound and Outboubd rules
+
+Step1: Create one extra public subnet and configure it with rpute table (Subnet Associate)
+
+Step2: Will create 2 servers for testing purpose 
+
+Step3: Will try to access and it will accessible
+
+Step4: Go to NW ACLs and rename it prod vpc 
+
+Step5: Add Vipul's public ip in it in Inbound rule and Allow it and mention /32
+
+Step6: Now we try to access RDP using our configured server (It will give error because it will work for only Vipul's IP)
+
+How we restrict other websites in Organisation:
+We allow their cidr ranges 
+
+
+Video 8 End
+
+------------------------------------------------------------------------
+
+Video 9 Start
+
+Security Groups - 
+
+Operates at the Instance level
+
+FOR ONE INSTANCE MAXIMUM 5 SECURTITY GROUPS
+
+IF NACL ALLOW SECURITY GROUPS HAVE TO ALLOW
+
+IN NACL will allow our publicc ip and in Security group will not allow
+
+
+
